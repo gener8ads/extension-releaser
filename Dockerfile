@@ -21,6 +21,10 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN apt-get update && apt-get -y install google-chrome-stable
 ## ----------- Chrome -----------
 
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
 RUN echo ${CERT} > /cert.pem
 
 ENTRYPOINT ["/entrypoint.sh"]
