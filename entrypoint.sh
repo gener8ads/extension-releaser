@@ -3,9 +3,9 @@
 set -e
 
 main() {
+    prepare_creds
     launch_xvfb
     launch_window_manager
-    prepare_creds
     signing_operation
 }
 
@@ -65,7 +65,7 @@ signing_operation() {
     echo "amending manifest"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
-    google-chrome-stable --no-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
+    DISPLAY=${XVFB_DISPLAY:-:1} google-chrome-stable --no-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
     echo "uploading to gcs"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
