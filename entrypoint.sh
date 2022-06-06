@@ -12,7 +12,7 @@ main() {
 prepare_creds() {
   echo "$CERT" > /cert.pem
   
-  echo "$GCS_SERVICE_ACCOUNT" > /service_account.json
+  echo "$GCS_SERVICE_ACCOUNT" | base64 -d > /service_account.json
 
   gcloud auth activate-service-account --key-file=/service_account.json
 }
