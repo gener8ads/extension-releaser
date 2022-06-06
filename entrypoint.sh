@@ -5,7 +5,16 @@ set -e
 main() {
     # launch_xvfb
     # launch_window_manager
+    prepare_creds
     signing_operation
+}
+
+prepare_creds() {
+  echo "$CERT" > /cert.pem
+  
+  echo "$GCS_SERVICE_ACCOUNT" > /service_account.json
+
+  gcloud auth activate-service-account --key-file=/service_account.json
 }
 
 # launch_xvfb() {

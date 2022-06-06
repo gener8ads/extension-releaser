@@ -24,3 +24,5 @@ runs:
   args:
     - ${{ inputs.EXTENSION_UPDATE_URL }}
     - ${{ inputs.CERT }}
+    - ${{ inputs.GCS_SERVICE_ACCOUNT }}
+    - ${{ inputs.TARGET_GCS_URL }}
