@@ -24,10 +24,12 @@ RUN apt-get update && apt-get -y install google-chrome-stable
 ## ----------- Chrome -----------
 
 ## ----------- GSUtil -----------
-RUN wget https://storage.googleapis.com/pub/gsutil.zip && \
-    unzip gsutil.zip
+RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.gpg && \
+    apt-get update -y && \
+    apt-get install google-cloud-sdk -y
 ## ----------- GSUtil -----------
-COPY gsutil/ /gsutil
+
 
 COPY entrypoint.sh /entrypoint.sh
 
@@ -36,5 +38,6 @@ RUN chmod +x /entrypoint.sh
 RUN echo ${CERT} > /cert.pem
 RUN echo ${GCS_SERVICE_ACCOUNT} > /service_account.json
 RUN export GOOGLE_APPLICATION_CREDENTIALS=/service_account.json
+RUN gcloud auth activate-service-account --key-file=/service_account.json
 
 ENTRYPOINT ["/entrypoint.sh"]

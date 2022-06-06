@@ -58,7 +58,7 @@ signing_operation() {
     echo "signing release"
     google-chrome-stable --headless --no-sandbox --pack-extension=release --pack-extension-key=/cert.pem
     echo "uploading to gcs"
-    ./gsutil/gsutil cp ./release.crx ${TARGET_GCS_URL}
+    gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
 }
 
