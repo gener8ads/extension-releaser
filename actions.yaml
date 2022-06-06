@@ -1,0 +1,18 @@
+name: 'Action for signing chromium extensions'
+description: 'Action for signing chromium extensions'
+author: 'Duncan Allan <duncan@gener8ads.com>'
+inputs:
+  EXTENSION_UPDATE_URL:
+    description: |
+      Name of the extension
+    required: true
+  CERT:
+    description: |
+      Private key for signing the extension.
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.EXTENSION_UPDATE_URL }}
+    - ${{ inputs.CERT }}
