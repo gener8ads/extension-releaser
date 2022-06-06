@@ -16,20 +16,16 @@ RUN mkdir -p /home/apps && chown apps:apps /home/apps
 RUN apt-get install -y wget jq unzip wmctrl fluxbox xvfb apt-transport-https ca-certificates gnupg
 
 # Set the Chrome repo.
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
+    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.gpg 
 
 # Install Chrome.
-RUN apt-get update && apt-get -y install google-chrome-stable
+RUN apt-get update -y --force-yes && \
+    apt-get -y install google-chrome-stable && \
+    apt-get -y install google-cloud-sdk
 ## ----------- Chrome -----------
-
-## ----------- GSUtil -----------
-RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.gpg && \
-    apt-get update -y && \
-    apt-get install google-cloud-sdk -y
-## ----------- GSUtil -----------
-
 
 COPY entrypoint.sh /entrypoint.sh
 
