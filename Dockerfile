@@ -27,6 +27,7 @@ RUN apt-get update && apt-get -y install google-chrome-stable
 RUN wget https://storage.googleapis.com/pub/gsutil.zip && \
     unzip gsutil.zip
 ## ----------- GSUtil -----------
+COPY gsutil/ /gsutil
 
 COPY entrypoint.sh /entrypoint.sh
 
