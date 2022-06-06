@@ -26,5 +26,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
+RUN systemd-machine-id-setup && ln -sf /etc/machine-id /var/lib/dbus/machine-id
+
 ENTRYPOINT ["/entrypoint.sh"]
       
