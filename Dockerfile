@@ -31,8 +31,8 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-RUN echo ${CERT} > /cert.pem
-RUN echo ${GCS_SERVICE_ACCOUNT} > /service_account.json
+RUN echo $CERT > /cert.pem
+RUN echo $GCS_SERVICE_ACCOUNT > /service_account.json
 RUN export GOOGLE_APPLICATION_CREDENTIALS=/service_account.json
 RUN gcloud auth activate-service-account --key-file=/service_account.json
 
