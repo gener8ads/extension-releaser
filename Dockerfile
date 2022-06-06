@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:focal
 
 ## ----------- Chrome -----------
 RUN apt-get update; apt-get clean
