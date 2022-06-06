@@ -10,6 +10,14 @@ inputs:
     description: |
       Private key for signing the extension.
     required: true
+  GCS_SERVICE_ACCOUNT:
+    description: |
+      Service account for interacting with GCS
+    required: true
+  TARGET_GCS_URL:
+    description: |
+      Target destination to send the signed crx file
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
