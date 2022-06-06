@@ -8,7 +8,7 @@ RUN useradd apps
 RUN mkdir -p /home/apps && chown apps:apps /home/apps
 
 # Install wget.
-RUN apt-get install -y wget jq unzip wmctrl fluxbox xvfb apt-transport-https ca-certificates gnupg curl
+RUN apt-get install -y wget jq unzip xvfb apt-transport-https ca-certificates gnupg curl
 
 # Set the Chrome repo.
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \

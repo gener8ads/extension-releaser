@@ -5,7 +5,6 @@ set -e
 main() {
     prepare_creds
     launch_xvfb
-    launch_window_manager
     signing_operation
 }
 
@@ -39,24 +38,6 @@ launch_xvfb() {
     done
 }
 
-launch_window_manager() {
-    local timeout=${XVFB_TIMEOUT:-5}
-
-    # Start and wait for either fluxbox to be fully up or we hit the timeout.
-    fluxbox &
-    local loopCount=0
-    until wmctrl -m > /dev/null 2>&1
-    do
-        loopCount=$((loopCount+1))
-        sleep 1
-        if [ ${loopCount} -gt ${timeout} ]
-        then
-            echo "${G_LOG_E} fluxbox failed to start."
-            exit 1
-        fi
-    done
-}
-
 signing_operation() {
     echo "making directory"
     mkdir release
@@ -65,7 +46,7 @@ signing_operation() {
     echo "amending manifest"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
-    DISPLAY=${XVFB_DISPLAY:-:1} google-chrome-stable --no-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
+    google-chrome-stable --no-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
     echo "uploading to gcs"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
