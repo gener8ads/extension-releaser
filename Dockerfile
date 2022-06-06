@@ -18,13 +18,13 @@ RUN apt-get install -y wget jq unzip wmctrl fluxbox xvfb apt-transport-https ca-
 # Set the Chrome repo.
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.gpg 
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 
 # Install Chrome.
-RUN apt-get update -y --force-yes && \
-    apt-get -y install google-chrome-stable && \
-    apt-get -y install google-cloud-sdk
+RUN apt-get update -y
+RUN apt-get -y install google-chrome-stable
+RUN apt-get -y install google-cloud-sdk
 ## ----------- Chrome -----------
 
 COPY entrypoint.sh /entrypoint.sh
@@ -37,3 +37,4 @@ RUN export GOOGLE_APPLICATION_CREDENTIALS=/service_account.json
 RUN gcloud auth activate-service-account --key-file=/service_account.json
 
 ENTRYPOINT ["/entrypoint.sh"]
+      
