@@ -51,7 +51,7 @@ launch_window_manager() {
 signing_operation() {
     mkdir release
     unzip -d release release.zip
-    jq ". += {\"update_url\": \"$EXTENSION_UPDATE_URL\"}" manifest.json > release/manifest.json
-    google-chrome-stable --no-sandbox --pack-extension=./release --pack-extension-key=cert.pem
-    gsutil cp ./release.crx $TARGET_GCS_URL
+    jq ". += {\"update_url\": \"$EXTENSION_UPDATE_URL\"}" release/manifest.json > release/manifest.json
+    google-chrome-stable --no-sandbox --pack-extension=release --pack-extension-key=/cert.pem
+    ./gsutil/gsutil cp ./release.crx $TARGET_GCS_URL
 }
