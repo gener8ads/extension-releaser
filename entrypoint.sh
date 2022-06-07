@@ -39,19 +39,18 @@ launch_xvfb() {
 }
 
 signing_operation() {
-    echo "setting perms"
-    chmod -R 777 ./*
-    chmod 600 /cert.pem
+    mv release.zip /home/apps/
+    cd /home/apps/
     echo "making directory"
-    su - apps -c "mkdir release"
+    mkdir release
     echo "unzipping release"
-    su - apps -c "unzip -d release release.zip"
+    unzip -d release release.zip
     echo "amending manifest"
-    su - apps -c "jq \". += {\\\"update_url\\\": \\\"${EXTENSION_UPDATE_URL}\\\"}\" release/manifest.json > release/manifest.json"
+    jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
     su - apps -c "google-chrome-stable --pack-extension=./release --pack-extension-key=/cert.pem"
     echo "uploading to gcs"
-    su - apps -c "gsutil cp ./release.crx ${TARGET_GCS_URL}"
+    gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
 }
 
