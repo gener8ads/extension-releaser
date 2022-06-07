@@ -6,10 +6,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ## ----------- Chrome -----------
 RUN apt-get update; apt-get clean
 
-# Add a user for running applications.
-RUN useradd apps
-RUN mkdir -p /home/apps && chown apps:apps /home/apps
-
 # Install wget.
 RUN apt-get install -y wget jq unzip xvfb apt-transport-https ca-certificates gnupg curl
 
