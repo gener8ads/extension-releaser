@@ -23,7 +23,7 @@ signing_operation() {
     echo "amending manifest"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
-    xvfb-run chromium --disable-gpu --disable-dev-shm-usage --no-sandbox --disable-setuid-sandbox --pack-extension=./release --pack-extension-key=/cert.pem 1>/dev/null 2>/dev/null
+    xvfb-run chromium --disable-gpu --disable-dev-shm-usage --no-sandbox --disable-setuid-sandbox --pack-extension=./release --pack-extension-key=/cert.pem || true
     echo "uploading to gcs"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
