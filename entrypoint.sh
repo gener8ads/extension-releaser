@@ -23,7 +23,16 @@ signing_operation() {
     echo "jq \". += {\\\"update_url\\\": \\\"${EXTENSION_UPDATE_URL}\\\"}\" release/manifest.json > release/manifest.json"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
+    ls -lathr
     xvfb-run chromium --disable-gpu --disable-dev-shm-usage --no-sandbox --pack-extension=./release --pack-extension-key=/cert.pem || true
+    ls -lathr
+    sleep 1
+    ls -lathr
+    sleep 1
+    ls -lathr
+    sleep 1
+    ls -lathr
+    sleep 1
     echo "gsutil cp ./release.crx ${TARGET_GCS_URL}"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
