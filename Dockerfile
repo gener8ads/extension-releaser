@@ -1,6 +1,6 @@
 FROM debian:stable
 
-RUN apt-get -y update && apt-get -y install curl gnupg
+RUN apt-get -y update && apt-get -y install curl gnupg unzip
 
 # Set the Chrome repo.
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
