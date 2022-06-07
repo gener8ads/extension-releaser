@@ -42,18 +42,16 @@ signing_operation() {
     echo "setting perms"
     chmod -R 777 ./*
     chmod 600 /cert.pem
-    echo "switching user"
-    su apps
     echo "making directory"
-    mkdir release
+    su - apps -c "mkdir release"
     echo "unzipping release"
-    unzip -d release release.zip
+    su - apps -c "unzip -d release release.zip"
     echo "amending manifest"
-    jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
+    su - apps -c "jq \". += {\\\"update_url\\\": \\\"${EXTENSION_UPDATE_URL}\\\"}\" release/manifest.json > release/manifest.json"
     echo "signing release"
-    google-chrome-stable --pack-extension=./release --pack-extension-key=/cert.pem
+    su - apps -c "google-chrome-stable --pack-extension=./release --pack-extension-key=/cert.pem"
     echo "uploading to gcs"
-    gsutil cp ./release.crx ${TARGET_GCS_URL}
+    su - apps -c "gsutil cp ./release.crx ${TARGET_GCS_URL}"
     echo "uploaded"
 }
 
