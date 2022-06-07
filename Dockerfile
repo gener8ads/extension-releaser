@@ -1,5 +1,7 @@
 FROM ubuntu:focal
 
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
+
 ## ----------- Chrome -----------
 RUN apt-get update; apt-get clean
 
