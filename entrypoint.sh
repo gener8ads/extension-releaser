@@ -39,6 +39,11 @@ launch_xvfb() {
 }
 
 signing_operation() {
+    echo "setting perms"
+    chmod -R 777 ./*
+    chmod 600 /cert.pem
+    echo "switching user"
+    su apps
     echo "making directory"
     mkdir release
     echo "unzipping release"
