@@ -39,8 +39,6 @@ launch_xvfb() {
 }
 
 signing_operation() {
-    mv release.zip /home/apps/
-    cd /home/apps/
     echo "making directory"
     mkdir release
     echo "unzipping release"
@@ -48,7 +46,7 @@ signing_operation() {
     echo "amending manifest"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
-    su - apps -c "google-chrome-stable --pack-extension=./release --pack-extension-key=/cert.pem"
+    google-chrome-stable --no-sandbox --disable-setuid-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
     echo "uploading to gcs"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
