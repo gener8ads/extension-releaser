@@ -46,7 +46,7 @@ signing_operation() {
     echo "amending manifest"
     jq ". += {\"update_url\": \"${EXTENSION_UPDATE_URL}\"}" release/manifest.json > release/manifest.json
     echo "signing release"
-    google-chrome-stable --no-sandbox --disable-setuid-sandbox --pack-extension=./release --pack-extension-key=/cert.pem
+    google-chrome-stable --pack-extension=./release --pack-extension-key=/cert.pem
     echo "uploading to gcs"
     gsutil cp ./release.crx ${TARGET_GCS_URL}
     echo "uploaded"
