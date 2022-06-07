@@ -1,6 +1,6 @@
 FROM debian:stable
 
-RUN apt-get -y update && apt-get -y install curl gnupg unzip jq
+RUN apt-get -y update && apt-get -y install curl gnupg unzip jq fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-cyrillic
 
 # Set the Chrome repo.
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
