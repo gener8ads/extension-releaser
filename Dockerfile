@@ -1,6 +1,7 @@
 FROM ubuntu:focal
 
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ## ----------- Chrome -----------
 RUN apt-get update; apt-get clean
